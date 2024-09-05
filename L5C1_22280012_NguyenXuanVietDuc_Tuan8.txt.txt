@@ -1,0 +1,608 @@
+#include<iostream>
+#include<cmath>
+#include<string>
+#include<vector>
+#include<algorithm>
+
+using namespace std;
+
+void Uoc(int n);
+double Tong(int x, int n);
+void KTraCungDau(double a, double b);
+int Tim_n(int n);
+
+struct SINHVIEN
+{
+	long long MSSV;
+	string Ten;
+	double DGK;
+	double DCK;
+	double DTH;
+	double DiemTong;
+};
+
+void NhapMangSV(SINHVIEN* SV, int n);
+void XuatMang(SINHVIEN* SV, int n);
+void QuaMon(SINHVIEN* SV, int n);
+void ThiLaiThucHanh(SINHVIEN* SV, int n);
+void NhapMang2Chieu(int** a, int n, int m);
+void DemSoLuongNguyenDuong(int** a, int m, int n);
+void DemSoLuongNguyenAm(int** a, int m, int n);
+void XuatMang2Chieu(int** a, int n, int m);
+
+int HoangHau(int** a, int m, int n);
+int YenNgua(int** a, int m, int n);
+int DemHoangHau(int** a, int m, int n);
+int DemYenNgua(int** a, int m, int n);
+
+int main()
+{
+	int n;
+	cout << "Nhap n de tim cac uoc: ";
+	cin >> n;
+	Uoc(n);
+	system("pause");
+	system("cls");
+
+	int x;
+	cout << "Nhap x de tinh tong: ";
+	cin >> x;
+	cout << "Nhap n de tinh tong: ";
+	cin >> n;
+	cout << "Tong chuoi x, n la: " << Tong(x, n) << endl;
+	system("pause");
+	system("cls");
+
+	double a, b;
+	cout << "Nhap 2 so thuc a va b: ";
+	cin >> a >> b;
+	KTraCungDau(a, b);
+	system("pause");
+	system("cls");
+
+	cout << "gia tri n nho nhat de tong lon hon 10000 la: " << Tim_n(n) << endl;
+	system("pause");
+	system("cls");
+
+	cout << "Nhap so luong sinh vien: ";
+	cin >> n;
+	SINHVIEN* SV;
+	SV = new SINHVIEN[n];
+	NhapMangSV(SV, n);
+	system("pause");
+	system("cls");
+
+	cout << "Danh sach sinh vien la:" << endl;
+	XuatMang(SV, n);
+	system("pause");
+	system("cls");
+
+	cout << "Danh sach sinh vien qua mon la: " << endl;
+	QuaMon(SV, n);
+	system("pause");
+	system("cls");
+
+	cout << "Danh sach sinh vien thi lai mon thuc hanh la: " << endl;
+	ThiLaiThucHanh(SV, n);
+	system("pause");
+	system("cls");
+
+	delete[] SV;
+
+	int m;
+	cout << "Nhap so hang cua ma tran: ";
+	cin >> m;
+	cout << "Nhap so cot cua ma tran: ";
+	cin >> n;
+
+	int** p = new int* [m];
+	for (int i = 0; i < m; i++)
+	{
+		p[i] = new int[n];
+	}
+
+	cout << "Nhap mang: " << endl;
+	NhapMang2Chieu(p, m, n);
+	system("pause");
+	system("cls");
+
+	DemSoLuongNguyenDuong(p, m, n);
+	system("pause");
+	system("cls");
+
+	DemSoLuongNguyenAm(p, m, n);
+	system("pause");
+	system("cls");
+
+	cout << "Ma tran la: " << endl;
+	XuatMang2Chieu(p, m, n);
+	cout << endl;
+	cout << "So luong hoang hau cua ma tran la: " << HoangHau(p, m, n)<<endl;
+	cout << "So luong yen ngua cua ma tran la: " << YenNgua(p, m, n) << endl;
+	cout << "So luong hoang hau su dung de quy la: " << DemHoangHau(p, m, n) << endl;
+	cout << "So luong yen ngua su dung de quy la: " << DemYenNgua(p, m, n) << endl;
+
+	for (int i = 0; i < m; i++)
+	{
+		delete[] p[i];
+	}
+
+	delete[] p;
+	return 0;
+}
+
+void Uoc(int n)
+{
+	for (int i = 1; i <= n; i++)
+	{
+		if (n%i == 0)
+		{
+			cout << i << " ";
+		}
+	}
+	cout << endl;
+}
+
+double Tong(int x, int n)
+{
+	int s = 0;
+	int r = 0;
+	double res = 0;
+	for (int i = 1; i <= n; i++)
+	{
+		s = pow(x, i);
+		r += i;
+		res += 1.0 * s / r;
+	}
+	return res;
+}
+
+void KTraCungDau(double a, double b)
+{
+	if ((a >= 0 && b >= 0) || (a < 0 && b < 0))
+	{
+		cout << "a va b cung dau" << endl;
+	}
+	else
+	{
+		cout << "a va b trai dau" << endl;
+	}
+}
+
+int Tim_n(int n)
+{
+	int s = 0;
+	n = 0;
+	while (s <= 10000)
+	{
+		s += n;
+		n++;
+	}
+	return n;
+}
+
+void NhapMangSV(SINHVIEN* SV, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << "Nhap thong tin sinh vien thu " << i + 1 << ": " << endl;
+		cout << "Nhap MSSV: ";
+		cin >> SV[i].MSSV;
+		cout << "Nhap ten sinh vien: ";
+		cin.ignore();
+		getline(cin, SV[i].Ten);
+		cout << "Nhap diem giua ki: ";
+		cin >> SV[i].DGK;
+		cout << "Nhap diem cuoi ki: ";
+		cin >> SV[i].DCK;
+		cout << "Nhap diem thuc hanh: ";
+		cin >> SV[i].DTH;
+		cout << endl;
+	}
+}
+
+void XuatMang(SINHVIEN* SV, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << "Thong tin sinh vien thu " << i + 1 << ": " << endl;
+		cout << "MSSV: " << SV[i].MSSV << endl;
+		cout << "Ten sinh vien: " << SV[i].Ten << endl;
+		cout << "Diem giua ki: " << SV[i].DGK << endl;
+		cout << "Diem cuoi ki: " << SV[i].DCK << endl;
+		cout << "Diem thuc hanh: " << SV[i].DTH << endl;
+		SV[i].DiemTong = (SV[i].DCK + SV[i].DGK + SV[i].DTH) / 3;
+		cout << "Diem tong ket la: " << SV[i].DiemTong << endl;
+	}
+}
+
+void QuaMon(SINHVIEN* SV, int n)
+{
+	int count = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if ( SV[i].DCK >= 5 && SV[i].DGK >= 5 && SV[i].DTH >= 5)
+		{
+			cout << SV[i].Ten << endl;
+			count++;
+		}
+	}
+	if (count == 0)
+	{
+		cout << "Khong co sinh vien nao qua mon!" << endl;
+	}
+}
+
+void ThiLaiThucHanh(SINHVIEN* SV, int n)
+{
+	int count = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (SV[i].DTH < 5)
+		{
+			cout << SV[i].Ten << endl;
+			count++;
+		}
+	}
+	if (count == 0)
+	{
+		cout << "Khong co sinh vien nao thi lai thuc hanh!" << endl;
+	}
+}
+
+void NhapMang2Chieu(int** a, int n, int m)
+{
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cin >> a[i][j];
+		}
+	}
+}
+
+void XuatMang2Chieu(int** a, int n, int m)
+{
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cout << a[i][j]<<" ";
+		}
+		cout << endl;
+	}
+}
+
+void DemSoLuongNguyenDuong(int** a, int m, int n)
+{
+	for (int i = 0; i < m; i++)
+	{
+		int count = 0;
+		for (int j = 0; j < n; j++)
+		{
+			if (a[i][j] > 0)
+			{
+				count++;
+			}
+		}
+		cout << "So so nguyen duong tai dong " << i + 1 << " la: " << count << endl;
+	}
+}
+
+void DemSoLuongNguyenAm(int** a, int m, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		int count = 0;
+		for (int j = 0; j < m; j++)
+		{
+			if (a[j][i] < 0)
+			{
+				count++;
+			}
+		}
+		cout << "So so nguyen am tai cot " << i + 1 << " la: " << count << endl;
+	}
+}
+
+int HoangHau(int** a, int m, int n)
+{
+	int count = 0;
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			int x = a[i][j];
+			bool test = true;
+			for (int hang = 0; hang < n; hang++)
+			{
+				if (j == hang)
+				{
+					continue;
+				}
+				if (x <= a[i][hang])
+				{
+					test = false;
+					break;
+				}
+			}
+			if (!test)
+			{
+				continue;
+			}
+			for (int cot = 0; cot < n; cot++)
+			{
+				if (i == cot)
+				{
+					continue;
+				}
+				if (x <= a[cot][j])
+				{
+					test = false;
+					break;
+				}
+			}
+			if (!test)
+			{
+				continue;
+			}
+			int t = i - 1;
+			int v = j + 1;
+			while (t >= 0 && v < n)
+			{
+				if (x <= a[t][v])
+				{
+					test = false;
+					break;
+				}
+				t--;
+				v++;
+			}
+
+			if (!test)
+			{
+				continue;
+			}
+			t = i + 1;
+			v = j - 1;
+			while (t < m && v >= 0)
+			{
+				if (x <= a[t][v])
+				{
+					test = false;
+					break;
+				}
+				t++;
+				v--;
+			}
+			if (!test)
+			{
+				continue;
+			}
+			t = i - 1;
+			v = j - 1;
+			while (t >= 0 && v >= 0)
+			{
+				if (x <= a[t][v])
+				{
+					test = false;
+					break;
+				}
+				t--;
+				v--;
+			}
+			if (!test)
+			{
+				continue;
+			}
+			t = i + 1;
+			v = j + 1;
+			while (t < m && v < n)
+			{
+				if (x <= a[t][v])
+				{
+					test = false;
+					break;
+				}
+				t++;
+				v++;
+			}
+			if (test == true)
+			{
+				count++;
+			}
+		}
+	}
+	return count;
+}
+
+int YenNgua(int** a, int m, int n)
+{
+	int count = 0;
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			int x = a[i][j];
+			bool test = true;
+			for (int hang = 0; hang < n; hang++)
+			{
+				if (j == hang)
+				{
+					continue;
+				}
+				if (x <= a[i][hang])
+				{
+					test = false;
+					break;
+				}
+			}
+			if (!test)
+			{
+				continue;
+			}
+			for (int cot = 0; cot < n; cot++)
+			{
+				if (i == cot)
+				{
+					continue;
+				}
+				if (x >= a[cot][j])
+				{
+					test = false;
+					break;
+				}
+			}
+			if (test == true)
+			{
+				count++;
+			}
+		}
+	}
+	return count;
+}
+
+bool KTraHoangHau(int** a, int m, int n, int i, int j, int x)
+{
+	// Kiem tra hang va cot
+	for (int k = 0; k < n; k++)
+	{
+		if (k != j && a[i][k] >= x)
+			return false;
+		if (k != i && a[k][j] >= x)
+			return false;
+	}
+
+	// Kiem tra duong cheo tren ben phai
+	int t = i - 1;
+	int v = j + 1;
+	while (t >= 0 && v < n)
+	{
+		if (a[t][v] >= x)
+			return false;
+		t--;
+		v++;
+	}
+
+	// Kiem tra duong cheo duoi ben trai
+	t = i + 1;
+	v = j - 1;
+	while (t < m && v >= 0) 
+	{
+		if (a[t][v] >= x)
+			return false;
+		t++;
+		v--;
+	}
+
+	// Kiem tra duong cheo tren ben trai
+	t = i - 1;
+	v = j - 1;
+	while (t >= 0 && v >= 0)
+	{
+		if (a[t][v] >= x)
+			return false;
+		t--;
+		v--;
+	}
+
+	// Kiem tra duong cheo duoi ben phai
+	t = i + 1;
+	v = j + 1;
+	while (t < m && v < n)
+	{
+		if (a[t][v] >= x)
+			return false;
+		t++;
+		v++;
+	}
+
+	return true;
+}
+
+int HoangHauDQ(int** a, int m, int n, int i, int j) 
+{
+	if (i == m)
+		return 0;
+
+	int count = 0;
+
+	if (KTraHoangHau(a, m, n, i, j, a[i][j])) 
+	{
+		count = 1;
+	}
+
+	// De quy qua o tiep theo
+	int temp_i = i;
+	int temp_j = j + 1;
+	if (temp_j == n) 
+	{
+		temp_i++;
+		temp_j = 0;
+	}
+	count += HoangHauDQ(a, m, n, temp_i, temp_j);
+
+	return count;
+}
+
+int DemHoangHau(int** a, int m, int n)
+{
+	return HoangHauDQ(a, m, n, 0, 0);
+}
+
+bool KTraYenNgua(int** a, int m, int n, int i, int j, int x) 
+{
+	// Kiem tra tren hang
+	for (int hang = 0; hang < n; hang++)
+	{
+		if (j == hang) 
+		{
+			continue;
+		}
+		if (x <= a[i][hang]) 
+		{
+			return false;
+		}
+	}
+
+	// Kiem tra tren cot
+	for (int cot = 0; cot < n; cot++) 
+	{
+		if (i == cot) 
+		{
+			continue;
+		}
+		if (x >= a[cot][j]) 
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+int YenNguaDQ(int** a, int m, int n, int i, int j)
+{
+	if (j == n) 
+	{
+		return YenNguaDQ(a, m, n, i + 1, 0);
+	}
+	if (i == m)
+	{
+		return 0;
+	}
+
+	int count = 0;
+	int x = a[i][j];
+	if (KTraYenNgua(a, m, n, i, j, x))
+	{
+		count = 1;
+	}
+
+	return count + YenNguaDQ(a, m, n, i, j + 1);
+}
+
+int DemYenNgua(int** a, int m, int n) 
+{
+	return YenNguaDQ(a, m, n, 0, 0);
+}

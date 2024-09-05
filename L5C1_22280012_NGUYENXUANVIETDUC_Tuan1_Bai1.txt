@@ -1,0 +1,124 @@
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+struct PHANSO {
+	int TuSo;
+	int MauSo;
+};
+
+void NhapPS(PHANSO a[], int n);
+void XuatPS(PHANSO a[], int n);
+void TimMax(PHANSO a[], int n);
+void TimMin(PHANSO a[], int n);
+void TichPS(PHANSO a[], int n);
+void NghichDaoPhanSo(PHANSO a[], int n);
+void SelectionSortPS(PHANSO a[], int n);
+void TongPS(PHANSO a[], int n);
+
+int main() {
+	PHANSO a[50];
+	int n;
+	cout << "Nhap so luong phan so: ";
+	cin >> n;
+	NhapPS(a, n);
+	cout << "Gia tri lon nhat la: ";
+	TimMax(a, n);
+	cout << "Gia tri nho nhat la: ";
+	TimMin(a, n);
+	cout << "Tong phan so la: ";
+	TongPS(a, n);
+	cout << "Tich cac phan so la: ";
+	TichPS(a, n);
+	cout << "Sap xep phan so: " << endl;
+	SelectionSortPS(a, n);
+	XuatPS(a, n);
+	cout << "Nghich dao phan so: " << endl;
+	NghichDaoPhanSo(a, n);
+	XuatPS(a, n);
+	return 0;
+}
+
+void NhapPS(PHANSO a[], int n) {
+	for (int i = 0; i < n; i++) {
+		cin >> a[i].TuSo;
+		cin >> a[i].MauSo;
+	}
+}
+
+void XuatPS(PHANSO a[], int n) {
+	for (int i = 0; i < n; i++) {
+		cout << a[i].TuSo << "/" << a[i].MauSo << endl;
+	}
+}
+
+void TimMax(PHANSO a[], int n) {
+	double max = 1.0 * a[0].TuSo / a[0].MauSo;
+	int index = 0;
+	for (int i = 1; i < n; i++) {
+		double m = 1.0 * a[i].TuSo / a[i].MauSo;
+		if (m > max) {
+			max = m;
+			index = i;
+		}
+	}
+	cout << a[index].TuSo << "/" << a[index].MauSo << endl;
+}
+
+int gcd(int a, int b) {
+	if (b == 0)
+		return 0;
+	return (b, a % b);
+}
+
+void TichPS(PHANSO a[], int n) {
+	int TichTu = 1;
+	int TichMau = 1;
+	for (int i = 0; i < n; i++) {
+		TichTu *= a[i].TuSo;
+		TichMau *= a[i].MauSo;
+	}
+	cout << TichTu / gcd(TichTu, TichMau) << "/" << TichMau / gcd(TichTu, TichMau) << endl;
+}
+
+void TimMin(PHANSO a[], int n) {
+	double min = 1.0 * a[0].TuSo / a[0].MauSo;
+	int index = 0;
+	for (int i = 1; i < n; i++) {
+		double m = 1.0 * a[i].TuSo / a[i].MauSo;
+		if (m < min) {
+			min = m;
+			index = i;
+		}
+	}
+	cout << a[index].TuSo << "/" << a[index].MauSo << endl;
+}
+
+void SelectionSortPS(PHANSO a[], int n) {
+	for (int i = 0; i < n - 1; i++) {
+		int k = i;
+		double x = 1.0 * a[i].TuSo / a[i].MauSo;
+		for (int j = i + 1; j < n; j++) {
+			double y = 1.0 * a[j].TuSo / a[j].MauSo;
+			if (y < x) k = j;
+		}
+		swap(a[i], a[k]);
+	}
+}
+
+void NghichDaoPhanSo(PHANSO a[], int n) {
+	for (int i = 0; i < n; i++) {
+		int temp = a[i].TuSo;
+		a[i].TuSo = a[i].MauSo;
+		a[i].MauSo = temp;
+	}
+}
+
+void TongPS(PHANSO a[], int n) {
+	PHANSO Tong = { 0,1 };
+	for (int i = 0; i < n; i++) {
+		Tong.TuSo = Tong.TuSo * a[i].MauSo + Tong.MauSo * a[i].TuSo;
+		Tong.MauSo = Tong.MauSo * a[i].MauSo;
+	}
+	cout << Tong.TuSo/ gcd(Tong.TuSo, Tong.MauSo) << "/" << Tong.MauSo/ gcd(Tong.TuSo, Tong.MauSo) << endl;
+}

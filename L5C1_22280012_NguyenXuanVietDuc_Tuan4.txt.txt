@@ -1,0 +1,431 @@
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+const int MAX_SIZE = 100;
+
+void NhapMaTran(double a[][MAX_SIZE], int m, int n);
+void XuatMaTran(double a[][MAX_SIZE], int m, int n);
+void ChepGTriDong_kQuaDong_h(double a[][MAX_SIZE], int m, int n);
+void ChepGTriCot_kQuaCot_h(double a[][MAX_SIZE], int m, int n);
+void HoanDoiDongDauVaCuoi(double a[][MAX_SIZE], int m, int n);
+void HoanDoiCotDauVaCuoi(double a[][MAX_SIZE], int m, int n);
+void LoaiBo1Dong_kBatKi(double a[][MAX_SIZE], int& m, int n);
+void LoaiBo1Cot_hBatKi(double a[][MAX_SIZE], int m, int &n);
+void TraLaiMaTran(double a[][MAX_SIZE], double b[][MAX_SIZE], int m, int n);
+void Tong2MaTran(double a[][MAX_SIZE], double b[][MAX_SIZE], int m, int n, int p, int q);
+void TongCacSoChan(double a[][MAX_SIZE], int m, int n);
+void DemSoLuongNto(double a[][MAX_SIZE], int m, int n);
+void ChuanMot(double A[8][4]);
+void ChuanVoCuc(double A[8][4]);
+void ChuanFrobenius(double A[8][4]);
+
+int main()
+{
+	double a[MAX_SIZE][MAX_SIZE]{}, b[MAX_SIZE][MAX_SIZE]{}, c[MAX_SIZE][MAX_SIZE]{};
+	int m, n;
+	int p, q;
+
+	cout << "Nhap dong va cot: ";
+	cin >> m >> n;
+
+	cout << "Nhap ma tran:" << endl;
+	NhapMaTran(a, m, n);
+
+	TraLaiMaTran(b, a, n, m);
+
+	ChepGTriDong_kQuaDong_h(a, m, n);
+	cout << "Ma tran sau khi chep dong k qua dong h la:" << endl;
+	XuatMaTran(a, m, n);
+	system("pause");
+	system("cls");
+
+	TraLaiMaTran(a, b, m, n);
+	ChepGTriCot_kQuaCot_h(a, m, n);
+	cout << "Ma tran sau khi chep cot k qua cot h la: " << endl;
+	XuatMaTran(a, m, n);
+	system("pause");
+	system("cls");
+
+	TraLaiMaTran(a, b, m, n);
+	HoanDoiDongDauVaCuoi(a, m, n);
+	cout << "Ma tran sau khi hoan doi dong dau va dong cuoi la: " << endl;
+	XuatMaTran(a, m, n);
+	system("pause");
+	system("cls");
+
+	TraLaiMaTran(a, b, m, n);
+	HoanDoiCotDauVaCuoi(a, m, n);
+	cout << "ma Tran sau khi hoan doi cot dau va cot cuoi la: " << endl;
+	XuatMaTran(a, m, n);
+	system("pause");
+	system("cls");
+
+	TraLaiMaTran(a, b, m, n);
+	LoaiBo1Dong_kBatKi(a, m, n);
+	cout << "Ma tran sau khu loai bo dong k la:" << endl;
+	XuatMaTran(a, m, n);
+	system("pause");
+	system("cls");
+	//Tra lai gia tri m ban dau khi bi xoa mat 1 dong
+	m++;
+
+	TraLaiMaTran(a, b, m, n);
+	LoaiBo1Cot_hBatKi(a, m, n);
+	cout << "Ma tran sau khu loai bo cot h la:" << endl;
+	XuatMaTran(a, m, n);
+	system("pause");
+	system("cls");
+	//Tra lai gia tri n ban dau khi bi xoa di 1 cot
+	n++;
+
+	TraLaiMaTran(a, b, m, n);
+	cout << "Vui long nhap kich thuoc ma tran c: ";
+	cin >> p >> q;
+	cout << "Vui long nhap ma tran c: " << endl;
+	NhapMaTran(c, p, q);
+	Tong2MaTran(a, c, m, n, p, q);
+	system("pause");
+	system("cls");
+
+	TraLaiMaTran(a, b, m, n);
+	TongCacSoChan(a, m, n);
+	system("pause");
+	system("cls");
+
+	TraLaiMaTran(a, b, m, n);
+	DemSoLuongNto(a, m, n);
+	system("pause");
+	system("cls");
+
+	double A[8][4] = { {11.08, 6.82, 1.76, -6.82},
+					   {2.50, -1.01, -2.60, 1.19},
+					   {-4.88, -5.07, -3.21, 5.20},
+					   {-0.49, 1.52, 2.07, -1.66},
+					   {-14.04, -12.40, -6.66, 12.65},
+					   {0.27, -8.51, -10.19, 9.15},
+					   {9.53, -9.84, -17.00, 11.00},
+					   {-12.01, 3.64, 11.10, -4.48} };
+	ChuanMot(A);
+	ChuanVoCuc(A);
+	ChuanFrobenius(A);
+
+	return 0;
+}
+
+void NhapMaTran(double a[][MAX_SIZE], int m, int n)
+{
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cin >> a[i][j];
+		}
+	}
+}
+
+void TraLaiMaTran(double a[][MAX_SIZE], double b[][MAX_SIZE], int m, int n)
+{
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			a[i][j] = b[i][j];
+		}
+	}
+}
+
+void XuatMaTran(double a[][MAX_SIZE], int m, int n)
+{
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cout << a[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+
+void ChepGTriDong_kQuaDong_h(double a[][MAX_SIZE], int m, int n)
+{
+	int k, h;
+	cout << "Nhap dong muon chep k va dong can chep h: ";
+	cin >> k >> h;
+	bool test = (k > 0 && k <= n && h > 0 && h <= n);
+	while (!test)
+	{
+		cout << "Dong khong thuoc pham vi ma tran vui long nhap lai!" << endl;
+		cout << "Nhap dong muon chep k va dong can chep h: ";
+		//Nhap lai gia tri k va h do khong thoa man yeu cau
+		cin >> k >> h;
+		test = (k > 0 && k <= n && h > 0 && h <= n);
+	}
+	for (int i = 0; i < n; i++)
+	{
+		//dong h bien thanh dong k;
+		a[h - 1][i] = a[k - 1][i];
+	}
+}
+
+void ChepGTriCot_kQuaCot_h(double a[][MAX_SIZE], int m, int n)
+{
+	int k, h;
+	cout << "Nhap cot muon chep k va cot can chep h: ";
+	cin >> k >> h;
+	bool test = (k > 0 && k <= m && h > 0 && h <= m);
+	while (!test)
+	{
+		cout << "Dong khong thuoc pham vi ma tran vui long nhap lai!" << endl;
+		cout << "Nhap cot muon chep k va cot can chep h: ";
+		//Nhap lai gia tri k va h do khong thoa man yeu cau
+		cin >> k >> h;
+		test = (k > 0 && k <= n && h > 0 && h <= n);
+	}
+	for (int i = 0; i < m; i++)
+	{
+		//cot h bien thanh cot k;
+		a[i][h - 1] = a[i][k - 1];
+	}
+}
+
+void HoanDoiDongDauVaCuoi(double a[][MAX_SIZE], int m, int n)
+{
+	//Mang 1 chieu b luu tru gia tri dong dau tien cua ma tran a
+	double b[100]{};
+	int x = 0;
+	for (int i = 0; i < n; i++)
+	{
+		b[x] = a[0][i];
+		x++;
+	}
+	for (int i = 0; i < n; i++)
+	{
+		//chep dong cuoi vao dong dau
+		a[0][i] = a[m - 1][i];
+		//chep dong dau vao dong cuoi
+		a[m - 1][i] = b[i];
+	}
+}
+
+void HoanDoiCotDauVaCuoi(double a[][MAX_SIZE], int m, int n)
+{
+	//Mang 1 chieu b luu tru gia tri cot dau tien cua ma tran a
+	double b[100]{};
+	int x = 0;
+	for (int i = 0; i < m; i++)
+	{
+		b[x] = a[i][0];
+		x++;
+	}
+	for (int i = 0; i < m; i++)
+	{
+		//chep cot cuoi vao cot dau
+		a[i][0] = a[i][n - 1];
+		//chep cot dau vao cot cuoi
+		a[i][n - 1] = b[i];
+	}
+}
+
+void LoaiBo1Dong_kBatKi(double a[][MAX_SIZE], int& m, int n)
+{
+	int k;
+	cout << "Nhap dong k muon loai bo: ";
+	cin >> k;
+	//Tao bien test kiem tra dieu kien
+	bool test = (k > 0 && k <= m);
+	while (!test)
+	{
+		cout << "Vui long nhap lai hang muon xoa vi so ban nhap nam ngoai pham vi ma tran!" << endl;
+		cout << "Nhap dong k muon loai bo: ";
+		cin >> k;
+
+		test = (k > 0 && k <= m);
+	}
+	for (int i = k - 1; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			//Tu dong bi xoa cac dong khac len tren 1 don vi
+			a[i][j] = a[i + 1][j];
+		}
+	}
+	m--;
+}
+
+void LoaiBo1Cot_hBatKi(double a[][MAX_SIZE], int m, int& n)
+{
+	int h;
+	cout << "Nhap cot h muon loai bo: ";
+	cin >> h;
+	//Tao bien test kiem tra dieu kien
+	bool test = (h > 0 && h <= n);
+	while (!test)
+	{
+		cout << "Vui long nhap lai hang muon xoa vi so ban nhap nam ngoai pham vi ma tran!" << endl;
+		cout << "Nhap dong k muon loai bo: ";
+		cin >> h;
+
+		test = (h > 0 && h <= n);
+	}
+	for (int i = h - 1; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			//Tu cot bi xoa cac cot khac qua trai 1 don vi
+			a[j][i] = a[j][i + 1];
+		}
+	}
+	n--;
+}
+
+void Tong2MaTran(double a[][MAX_SIZE], double b[][MAX_SIZE], int m, int n, int p, int q)
+{
+
+	if (m == p && n == q) 
+	{
+		for (int i = 0; i < m; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				//Tong cua 2 ma tran a va b se thanh ma tran a
+				a[i][j] = a[i][j] + b[i][j];
+			}
+		}
+		cout << "Ma tran tong la: " << endl;
+		XuatMaTran(a, m, n);
+	}
+	else
+	{
+		cout << "Khong the cong ma tran do khong cung kich thuoc" << endl;
+
+	}
+}
+
+void TongCacSoChan(double a[][MAX_SIZE], int m, int n)
+{
+	double s = 0;
+	int count = 0;
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			double x = a[i][j];
+			// Ep kieu cho cac phan tu trong mang la so nguyen de thuc hien phep chia lay phan du
+			if (int(x) == x && int(x) % 2 == 0)
+			{
+				s += a[i][j];
+				count++;
+			}
+		}
+	}
+	if (count == 0)
+	{
+		cout << "Ma tran khong co so chan nao" << endl;
+	}
+	else
+	{
+		cout << "Tong cac so chan trong ma tran la: " << s << endl;
+	}
+}
+
+bool LaNTo(int n)
+{
+	if (n <= 1)
+	{
+		return false;
+	}
+	for (int i = 2; i < sqrt(n); i++)
+	{
+		if (n % i == 0)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+void DemSoLuongNto(double a[][MAX_SIZE], int m, int n)
+{
+	int count = 0;
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			double x = a[i][j];
+			if (int(x) == x && LaNTo(int(x)) == true)
+			{
+				count++;
+			}
+		}
+	}
+	if (count == 0)
+	{
+		cout << "Ma tran khong co so nguyen to!";
+	}
+	else
+	{
+		cout << "Ma tran co " << count << " so nguyen to!" << endl;
+	}
+}
+
+void ChuanMot(double A[8][4])
+{
+	double A[8][4];
+	double Chuan1 = 0;
+	int m = 8;
+	int n = 4;
+	for (int j = 0; j < n; j++)
+	{
+		//max tra ve 0 moi lan chuyen cot
+		int max = 0;
+		for (int i = 0; i < m; i++)
+		{
+			max += abs(A[i][j]);
+		}
+		if (max > Chuan1)
+		{
+			Chuan1 = max;
+		}
+	}
+	cout << "Chuan 1 cua ma tran la: " << Chuan1 << endl;
+}
+
+void ChuanVoCuc(double A[8][4])
+{
+	double A[8][4];
+	double ChuanVCuc = 0;
+	int m = 8;
+	int n = 4;
+	for (int i = 0; i < m; i++)
+	{
+		//max tra ve 0 moi lan chuyen dong
+		int max = 0;
+		for (int j = 0; j < n; j++)
+		{
+			max += abs(A[i][j]);
+		}
+		if (max > ChuanVCuc)
+		{
+			ChuanVCuc = max;
+		}
+	}
+	cout << "Chuan vo cuc cua ma tran la: " << ChuanVCuc<<endl;
+}
+
+void ChuanFrobenius(double A[8][4])
+{
+	double A[8][4];
+	double ChuanFro = 0;
+	int m = 8;
+	int n = 4;
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			ChuanFro += pow(abs(A[i][j]), 2);
+		}
+	}
+	ChuanFro = sqrt(ChuanFro);
+	cout << "Chuan Frobenius cua ma tran la: " << ChuanFro << endl;
+}

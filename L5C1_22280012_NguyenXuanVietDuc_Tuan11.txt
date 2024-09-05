@@ -1,0 +1,378 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include<cmath>
+
+#define ll long long
+
+using namespace std;
+
+typedef struct
+{
+	// Duong thang y=ax+b;
+	int a;
+	int b;
+}DUONGTHANG;
+
+typedef struct
+{
+	int x;
+	int y;
+}TOADO;
+
+void NhapDuongThang(DUONGTHANG* Y, int n);
+void InDuongThang(DUONGTHANG* Y, int n);
+void SongSong(DUONGTHANG* Y, int n);
+void DuongThangDiQuaP(DUONGTHANG* Y, TOADO P, int n);
+
+typedef struct
+{
+	int MaTinh;
+	string TenTinh;
+	ll DanSo;
+	double DienTich;
+}TINH;
+
+void NhapTinh(TINH* X, int n);
+void InTinh(TINH* X, int n);
+void DanSoTren1Trieu(TINH* X, int n);
+int TinhMax(TINH* X, int n);
+void InTinhDanSoMax(TINH* X, int n);
+void InTinhGiamDan(TINH* X, int n);
+void SapXep(TINH* X, int n);
+void InTinhGiamDan(TINH* X, int n);
+double TongSnCau7(int n);
+double TongChuoiSnCau8(int n);
+double TongChuoiSnCau9(int n, int temp);
+double TongChuoiSnCau10(int n);
+
+void NhapMang(int* a, int n);
+void XuatMang(int* a, int n);
+void SelectionSortDQ(int* a, int n);
+
+int UocSoLeLonNhat(int n);
+
+int main()
+{
+	int n;
+	cout << "Nhap so duong thang muon nhap: ";
+	cin >> n;
+	DUONGTHANG* Y;
+	Y = new DUONGTHANG[n];
+
+	NhapDuongThang(Y, n);
+
+	InDuongThang(Y, n);
+
+	SongSong(Y, n);
+
+	TOADO P;
+	cout << "Nhap diem P: ";
+	cin >> P.x >> P.y;
+	
+	DuongThangDiQuaP(Y, P, n);
+
+	delete[] Y;
+	system("pause");
+	system("cls");
+
+	cout << "Nhap so luong tinh muon nhap: ";
+	cin >> n;
+	TINH* X;
+	X = new TINH[n];
+
+	NhapTinh(X, n);
+
+	system("pause");
+	system("cls");
+
+	InTinh(X, n);
+
+	DanSoTren1Trieu(X, n);
+
+	InTinhDanSoMax(X, n);
+
+	InTinhGiamDan(X, n);
+
+	delete[] X;
+
+	system("pause");
+	system("cls");
+
+	cout << "Nhap n de tinh tong chuoi: ";
+	cin >> n;
+	cout << "Gia tri tong chuoi cau 7 la: " << TongSnCau7(n) << endl;
+	cout << "Gia tri tong chuoi cau 8 la: " << TongChuoiSnCau8(n) << endl;
+	int temp = 1;
+	cout << "Gia tri tong chuoi cau 9 la: " << TongChuoiSnCau9(n, temp) << endl;
+	cout << "Gia tri tong chuoi cau 10 la: " << TongChuoiSnCau10(n) << endl;
+
+	system("pause");
+	system("cls");
+
+	cout << "Nhap so luong phan tu mang: ";
+	cin >> n;
+	int* a = new int[n];
+
+	cout << "Nhap mang: ";
+	NhapMang(a, n);
+	SelectionSortDQ(a, n);
+	cout << "Mang sau khi sap xep bang de quy la: ";
+	XuatMang(a, n);
+	cout << endl;
+
+	system("pause");
+	system("cls");
+
+	cout << "Nhap n de tinh uoc so le lon nhat: ";
+	cin >> n;
+	cout << "Uoc so le lon nhat la: " << UocSoLeLonNhat(n) << endl;
+
+	delete[] a;
+	return 0;
+}
+
+void NhapDuongThang(DUONGTHANG* Y, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << "Nhap he so truoc x va he so tu do cua duong thang thu " << i + 1 << ": ";
+		cin >> Y[i].a;
+		cin >> Y[i].b;
+	}
+}
+
+void InDuongThang(DUONGTHANG* Y, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << "Duong thang thu " << i + 1 << " la: ";
+		cout << "y=" << Y[i].a << "x+" << Y[i].b << endl;
+	}
+}
+
+void SongSong(DUONGTHANG* Y, int n)
+{
+	bool test = true;
+	for (int i = 0; i < n - 1; i++)
+	{
+		for (int j = i + 1; j < n; j++)
+		{
+			if (Y[i].a != Y[j].a || Y[i].b == Y[j].b)
+			{
+				test = false;
+				break;
+			}
+		}
+	}
+	if (!test)
+	{
+		cout << "Cac duong thang nay khong cung song song voi nhau!" << endl;
+	}
+	else
+	{
+		cout << "Cac duong thang nay cung song song voi nhau!" << endl;
+	}
+}
+
+void DuongThangDiQuaP(DUONGTHANG* Y, TOADO P, int n)
+{
+	int count = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (Y[i].a * P.x + Y[i].b == P.y)
+		{
+			count++;
+			cout << "Diem P di qua duong thang thu " << i + 1 << ": ";
+			cout << "y=" << Y[i].a << "x+" << Y[i].b << endl;
+		}
+	}
+	if (count == 0)
+	{
+		cout << "Khong co bat ki duong thang nao di qua P!" << endl;
+	}
+}
+
+void NhapTinh(TINH* X, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << endl;
+		cout << "Nhap thong tin tinh thu " << i + 1 << ": " << endl;
+		cout << "Nhap ma tinh: ";
+		cin >> X[i].MaTinh;
+		cout << "Nhap ten tinh: ";
+		cin.ignore();
+		getline(cin, X[i].TenTinh);
+		cout << "Nhap dan so: ";
+		cin >> X[i].DanSo;
+		cout << "Nhap dien tich: ";
+		cin >> X[i].DienTich;
+	}
+}
+
+void InTinh(TINH* X, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << "Thong tin tinh thu " << i + 1 << ": " << endl;
+		cout << "Nhap ma tinh: ";
+		cout << X[i].MaTinh << endl;
+		cout << "Nhap ten tinh: ";
+		cout << X[i].TenTinh << endl;
+		cout << "Nhap dan so: ";
+		cout << X[i].DanSo << endl;
+		cout << "Nhap dien tich: ";
+		cout << X[i].DienTich << endl << endl;
+	}
+}
+
+void DanSoTren1Trieu(TINH* X, int n)
+{
+	cout << "Cac tinh co dan so lon hon 1 trieu dan la: " << endl;
+	int count = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (X[i].DanSo > 1000000)
+		{
+			cout << X[i].TenTinh << endl;
+			count++;
+		}
+	}
+	if (count == 0) 
+	{
+		cout << "Khong co tinh nao!";
+	}
+}
+
+int TinhMax(TINH* X, int n)
+{
+	int index = 0;
+	for (int i = 1; i < n; i++)
+	{
+		if (X[index].DanSo < X[i].DanSo)
+		{
+			index = i;
+		}
+	}
+	return index;
+}
+void InTinhDanSoMax(TINH* X, int n)
+{
+	cout << "Tinh co dan so lon nhat la: " << X[TinhMax(X, n)].TenTinh << endl;
+}
+
+void SapXep(TINH* X, int n)
+{
+	for (int i = 0; i < n - 1; i++)
+	{
+		for (int j = i + 1; j < n; j++)
+		{
+			if (X[i].DienTich < X[j].DienTich)
+			{
+				swap(X[i], X[j]);
+			}
+		} 
+	}
+}
+
+void InTinhGiamDan(TINH* X, int n)
+{
+	SapXep(X, n);
+	cout << "Sap xep cac tinh giam dan theo dien tich la: ";
+	for (int i = 0; i < n; i++)
+	{
+		cout << X[i].TenTinh << "  ";
+	}
+}
+
+double TongSnCau7(int n)
+{
+	if (n == 1)
+	{
+		return sqrt(2);
+	}
+	else
+	{
+		return sqrt(2 + TongSnCau7(n - 1));
+	}
+}
+
+double TongChuoiSnCau8(int n)
+{
+	if (n == 1)
+	{
+		return sqrt(1);
+	}
+	else
+	{
+		return sqrt(n + TongChuoiSnCau8(n - 1));
+	}
+}
+
+double TongChuoiSnCau9(int n, int temp)
+{
+	if (temp > n)
+	{
+		return 0;
+	}
+	else
+	{
+		return sqrt(temp + TongChuoiSnCau9(n, temp + 1));
+	}
+}
+
+
+double TongChuoiSnCau10(int n)
+{
+	if (n == 1)
+	{
+		return 0.5;
+	}
+	else
+	{
+		return 1 / (1 + TongChuoiSnCau10(n - 1));
+	}
+}
+
+void NhapMang(int* a, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cin >> a[i];
+	}
+}
+
+void XuatMang(int* a, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << a[i] << " ";
+	}
+}
+
+void SelectionSortDQ(int* a, int n) 
+{
+	if (n == 1)
+	{
+		return;
+	}
+
+	for (int i = 0; i < n; i++)
+	{
+		if (a[i] > a[n - 1])
+		{
+			swap(a[i], a[n - 1]);
+		}
+	}
+	SelectionSortDQ(a, n - 1);
+}
+
+int UocSoLeLonNhat(int n)
+{
+	if (n % 2 == 1)
+	{
+		return n;
+	}
+	return UocSoLeLonNhat(n / 2);
+}

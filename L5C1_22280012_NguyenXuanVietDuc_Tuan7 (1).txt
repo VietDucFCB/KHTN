@@ -1,0 +1,663 @@
+//Nhap ma tran em de random ak!
+
+#include<iostream>
+#include<string>
+#include<cstdlib>
+#include<vector>
+#include<cmath>
+
+using namespace std;
+
+#define ll long long
+
+int Bai1_KhongDeQuy(int Xn, int n);
+int Bai1_De_Quy( int n);
+void Bai_2( int &n, int &m);
+int Add(int &a, int &b);
+void Nhap(int* p, int n);
+void Xuat(int* p, int n);
+int Sum(int* p, int n);
+int DemKiTu(string str);
+void DemNguyenAmPhuAm(string str);
+string* GhepHaiChuoi(string* str1, string* str2);
+void MinAndMax();
+
+struct MaTranPhanSo
+{
+	ll Tu;
+	ll Mau;
+	MaTranPhanSo operator/(const MaTranPhanSo& MT) const
+	{
+		return { Tu * MT.Mau, Mau * MT.Tu };
+	}
+};
+
+void NhapMatran(vector<vector<MaTranPhanSo>>& MT, int m, int n);
+void XuatMaTran(vector<vector<MaTranPhanSo>> MT, int m, int n);
+bool KTraMaTranVuong(int m, int n);
+void MaTranDoiXung(vector<vector<MaTranPhanSo>> MT, int m, int n);
+void DinhThucMaTran(vector<vector<MaTranPhanSo>> MT, int m, int n);
+void MaTranBacThang(vector<vector<MaTranPhanSo>>& MT, int m, int n);
+int RankCuaMaTran(vector<vector<MaTranPhanSo>> MT, int m, int n);
+void TongMaTranPS(vector<vector<MaTranPhanSo>> A, vector<vector<MaTranPhanSo>> B, vector<vector<MaTranPhanSo>>& C, int m, int n, int p, int q);
+void TichMaTranPS(vector<vector<MaTranPhanSo>> A, vector<vector<MaTranPhanSo>> B, vector<vector<MaTranPhanSo>>& C, int m, int n, int p, int q);
+
+int main()
+{
+	int Xn = 0;
+	int n;
+	cout << "Nhap n: ";
+	cin >> n;
+
+	cout << "Bai 1 khong de quy la: " << Bai1_KhongDeQuy(Xn, n) << endl;
+	cout << "Bai 1 su dung de quy la: " << Bai1_De_Quy(n) << endl;
+	system("pause");
+	system("cls");
+
+	int m;
+	cout << "Nhap 2 gia tri muon hoa doi: ";
+	cin >> n >> m;
+	Bai_2(n, m);
+	cout << "Gia tri sau khi hoan doi la: " << n <<" " << m << endl;
+	system("pause");
+	system("cls");
+
+	cout << "nhap 2 so muon cong: ";
+	cin >> n >> m;
+	cout << "Ket qua la: " << Add(n, m) << endl;
+	system("pause");
+	system("cls");
+
+	cout << "Nhap so luong phan tu trong mang: ";
+	cin >> n;
+	int* p;
+	p = new int[n];
+	Nhap(p, n);
+	cout << "Mang ban vua nhap la: ";
+	Xuat(p, n);
+	cout << endl;
+	cout << "Tong mang la: " << Sum(p, n) << endl;
+
+	delete[] p;
+
+	system("pause");
+	system("cls");
+
+	string str;
+	cout << "nhap chuoi muon dem: ";
+	cin.ignore();
+	getline(cin, str);
+	cout << "chuoi co " << DemKiTu(str) << " ki tu." << endl;
+	DemNguyenAmPhuAm(str);
+	system("pause");
+	system("cls");
+
+	string s1;
+	cout << "Nhap chuoi 1: ";
+	getline(cin, s1);
+	string* str1 = new string(s1);
+	
+	string s2;
+	cout << "Nhap chuoi 2: ";
+	getline(cin, s2);
+	string* str2 = new string(s2);
+
+	cout << "Chuoi moi la: " << *(GhepHaiChuoi(str1, str2)) << endl;
+
+	delete str1;
+	delete str2;
+
+	system("pause");
+	system("cls");
+
+	MinAndMax();
+
+	system("pause");
+	system("cls");
+
+	vector<vector<MaTranPhanSo>> MT;
+	cout << "Nhap so dong va cot cua ma tran: ";
+	cin >> m >> n;
+	NhapMatran(MT, m, n);
+	cout << "Ma tran cua ban la: " << endl;
+	XuatMaTran(MT, m, n);
+	
+	if (KTraMaTranVuong(m, n) == true)
+	{
+		cout << "Ma tran tren vuong!";
+	}
+	else
+	{
+		cout << "Ma tran tren khong vuong!";
+	}
+	cout << endl;
+
+	MaTranDoiXung(MT, m, n);
+
+	DinhThucMaTran(MT, m, n);
+
+	MaTranBacThang(MT, m, n);
+	cout << "Ma tran bac thang cua ma tran tren la: " << endl <<endl;
+	XuatMaTran(MT, m, n);
+	cout << endl;
+
+	cout << "Hang cua ma tran tren la: " << RankCuaMaTran(MT, m, n) << endl;
+
+	system("pause");
+	system("cls");
+
+	vector<vector<MaTranPhanSo>> A;
+	vector<vector<MaTranPhanSo>> B;
+	vector<vector<MaTranPhanSo>> C;
+
+	int k, l;
+
+	cout << "Nhap kich thuoc cua ma tran A: ";
+	cin >> m >> n;
+
+	cout << "Nhap kich thuoc cua ma tran B: ";
+	cin >> k >> l;
+
+	cout << "Nhap ma tran A: ";
+	NhapMatran(A, m, n);
+	cout << endl;
+
+	cout << "Nhap ma tran B: ";
+	NhapMatran(B, k, l);
+	cout << endl;
+
+	cout << "Ma tran A cua ban la: " << endl;
+	XuatMaTran(A, m, n);
+	cout << endl;
+
+	cout << "Ma tran B cua ban la:" << endl;
+	XuatMaTran(B, k, l);
+	cout << endl;
+
+	if (m != k || n != k)
+	{
+		cout << "Kich thuoc 2 ma tran khong phu hop de cong!" << endl;
+	}
+	else
+	{
+		TongMaTranPS(A, B, C, m, n, k, l);
+
+		cout << "Ma tran tong cua A va B la: " << endl;
+		XuatMaTran(C, m, n);
+	}
+
+	if (n != k)
+	{
+		cout << "Kich thuoc 2 ma tran khong phu hop de nhan!" << endl;
+	}
+	else
+	{
+		TichMaTranPS(A, B, C, m, n, k, l);
+		cout << "Ma tran tich la: " << endl;
+		XuatMaTran(C, m, l);
+
+	}
+
+	return 0;
+}
+
+int Bai1_De_Quy(int n) 
+{
+	if (n<2) 
+	{
+		return 1;
+	}
+	else
+	{
+		int Xn = 0;
+		for (int i = 0; i < n; i++)
+		{
+			Xn += (i + 1) * Bai1_De_Quy(i);
+		}
+		return Xn;
+	}
+}
+
+int Bai1_KhongDeQuy(int Xn, int n)
+{
+	if (n < 2)
+	{
+		return 1;
+	}
+	else
+	{
+		Xn = 3;
+		for (int i = 3; i <= n; i++)
+		{
+			Xn += i * Xn;
+		}
+	}
+	return Xn;
+}
+
+void Bai_2( int &n, int &m)
+{
+	int *p = &n;
+	int *q = &m;
+	int temp = *p;
+	*p = *q;
+	*q = temp;
+}
+
+int Add(int &a, int &b)
+{
+	int* p1 = &a;
+	int* p2 = &b;
+	return *p1 + *p2;
+}
+
+void Nhap(int* p, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		*(p + i) = (rand() % (10 + 1));
+	}
+}
+
+void Xuat(int* p, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << *(p + i) << " ";
+	}
+}
+
+int Sum(int* p, int n)
+{
+	int s=0;
+	for (int i = 0; i < n; i++)
+	{
+		s += *(p + i);
+	}
+	return s;
+}
+
+int DemKiTu(string str)
+{
+	string* s = &str;
+	int n = 0;
+	while (!(*s).empty())
+	{
+		*s = (*s).substr(1);
+		n++;
+	}
+	return n;
+}
+
+string* GhepHaiChuoi(string* str1, string* str2)
+{
+	string* s = new string(*str1 + *str2);
+	return s;
+}
+
+
+void DemNguyenAmPhuAm(string str)
+{
+	const char* s= str.c_str();
+	const string NguyenAm = "euoaiEUOAI";
+	const string PhuAm = "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
+	
+	int n = 0; //n la so luong nguyen am
+	int m = 0; //m la so luong phu am
+
+	for (int i = 0; i < DemKiTu(str); i++)
+	{
+		if (NguyenAm.find(*(s + i)) != string::npos)
+		{
+			n++;
+		}
+		if (PhuAm.find(*(s + i)) != string::npos)
+		{
+			m++;
+		}
+	}
+	cout << "Chuoi co " << n << " nguyen am" << endl;
+	cout << "Chuoi co " << m << " phu am" << endl;
+}
+
+void MinAndMax()
+{
+	double x = 0.0;
+	double y = 0.0;
+	double z = 0.0;
+	cout << "Nhap gia tri x y z: ";
+	cin >> x >> y >> z;
+	auto* p1 = &x;
+	auto* p2 = &y;
+	auto* p3 = &z;
+
+	if (*p1 < *p2)
+	{
+		if (*p2 < *p3)
+		{
+			cout << "Max la: " << *p3 << endl;
+			cout << "Min la: " << *p1 << endl;
+		}
+		else 
+		{
+			cout << "Max la: " << *p2 << endl;
+			if (*p1 < *p3)
+			{
+				cout << "Min la: " << *p1 << endl;
+			}
+			else
+			{
+				cout << "Min la: " << *p3 << endl;
+			}
+		}
+	}
+	else
+	{
+		if (*p1 < *p3)
+		{
+			cout << "Max la: " << *p3 << endl;
+			cout << "Min la: " << *p2 << endl;
+		}
+		else
+		{
+			cout << "Max la: " << *p1 << endl;
+			if (*p1 < *p3)
+			{
+				cout << "Min la: " << *p2 << endl;
+			}
+			else
+			{
+				cout << "Min la: " << *p3 << endl;
+			}
+		}
+	}
+}
+
+void NhapMatran(vector<vector<MaTranPhanSo>>& MT, int m, int n)
+{
+	MT.resize(m);
+	for (int i = 0; i < m; i++)
+	{
+		MT[i].resize(n);
+		for (int j = 0; j < n; j++)
+		{
+			MT[i][j].Tu = (rand() % 9);
+			MT[i][j].Mau = (rand() % 8) + 1;
+			//cin >> MT[i][j].Tu;
+			//cin >> MT[i][j].Mau;
+
+		}
+	}
+}
+
+void XuatMaTran(vector<vector<MaTranPhanSo>> MT, int m, int n)
+{
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			if (MT[i][j].Mau < 0)
+			{
+				MT[i][j].Tu = -MT[i][j].Tu;
+				MT[i][j].Mau = -MT[i][j].Mau;
+			}
+			if (MT[i][j].Tu < 1e-9)
+			{
+				cout << "0"<<"  ";
+			}
+			else 
+			{
+				cout << MT[i][j].Tu << "/" << MT[i][j].Mau << "  ";
+			}
+		}
+		cout << endl << endl;
+	}
+}
+
+bool KTraMaTranVuong(int m, int n)
+{
+	auto* prt1 = &m;
+	auto* prt2 = &n;
+	return *prt1 = *prt2 ? true : false;
+}
+
+void MaTranDoiXung(vector<vector<MaTranPhanSo>> MT, int m, int n)
+{
+	if (KTraMaTranVuong(m, n) == false)
+	{
+		cout << "Ma Tran Khong doi xung!" << endl;
+	}
+	else
+	{
+		bool test = true;
+		for (int i = 0; i < m; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+					
+				if (MT[i][j].Tu != MT[j][i].Tu || MT[i][j].Mau != MT[j][i].Mau)
+				{
+					test = false;
+					break;
+				}
+			}
+			if (test == false)
+			{
+				break;
+			}
+		}
+		if (test == true)
+		{
+			cout << "Ma tran doi xung!" << endl;
+		}
+		else
+		{
+			cout << "Ma Tran khong doi xung!" << endl;
+		}
+	}
+}
+
+int UCLN(ll a, ll b)
+{
+	while (b != 0) {
+		int r = a % b;
+		a = b;
+		b = r;
+	}
+	return a;
+}
+
+void DinhThucMaTran(vector<vector<MaTranPhanSo>> MT, int m, int n)
+{
+	if (KTraMaTranVuong(m, n) != true)
+	{
+		cout << "Khong the tinh dinh thuc ma tran khong vuong!";
+	}
+	else
+	{
+		if (n == 1)
+		{
+			cout << "Dinh thuc ma tran cap 1 la: " << MT[0][0].Tu << "/" << MT[0][0].Mau << endl;
+		}
+
+		if (n == 2)
+		{
+			int Tu1 = MT[0][0].Tu * MT[1][1].Tu;
+			int Mau1 = MT[0][0].Mau * MT[1][1].Mau;
+
+			int Tu2 = MT[0][1].Tu * MT[1][0].Tu;
+			int Mau2 = MT[0][1].Mau * MT[1][0].Mau;
+
+			int DinhThucTu = Tu1 * Mau2 - Tu2 * Mau1;
+			int DinhThucMau = Mau1 * Mau2;
+
+			int UC = UCLN(DinhThucTu, DinhThucMau);
+			DinhThucTu /= UC;
+			DinhThucMau /= UC;
+			cout << "Dinh thuc cua ma tran la: " << DinhThucTu << "/" << DinhThucMau << endl;
+		}
+		if (n == 3)
+		{
+		// Quy tac sarrus
+			int Tu1 = MT[0][0].Tu * MT[1][1].Tu * MT[2][2].Tu;
+			int Mau1 = MT[0][0].Mau * MT[1][1].Mau * MT[2][2].Mau;
+
+			int Tu2 = MT[0][1].Tu * MT[1][2].Tu * MT[2][0].Tu;
+			int Mau2 = MT[0][1].Mau * MT[1][2].Mau * MT[2][0].Mau;
+
+			int Tu3 = MT[0][2].Tu * MT[1][0].Tu * MT[2][1].Tu;
+			int Mau3 = MT[0][2].Mau * MT[1][0].Mau * MT[2][1].Mau;
+
+			int x1;// Tu cua tong tich duong cheo chinh
+			int y1;// Mau cua tong tich duong cheo chinh
+
+			x1 = Tu1 * Mau2 * Mau3 + Tu2 * Mau1 * Mau3 + Tu3 * Mau1 * Mau2;
+			y1 = Mau1 * Mau2 * Mau3;
+
+			Tu1= MT[0][2].Tu * MT[1][1].Tu * MT[2][0].Tu;
+			Mau1 = MT[0][2].Mau * MT[1][1].Mau * MT[2][0].Mau;
+
+			Tu2 = MT[0][1].Tu * MT[1][0].Tu * MT[2][2].Tu;
+			Mau2 = MT[0][1].Mau * MT[1][0].Mau * MT[2][2].Mau;
+
+			Tu3 = MT[0][0].Tu * MT[1][2].Tu * MT[2][1].Tu;
+			Mau3 = MT[0][0].Mau * MT[1][2].Mau * MT[2][1].Mau;
+
+			int x2;// Tu cua tong tich duong cheo phu
+			int y2;// Mau cua tong tich duong chep phu
+
+			x2 = Tu1 * Mau2 * Mau3 + Tu2 * Mau1 * Mau3 + Tu3 * Mau1 * Mau2;
+			y2 = Mau1 * Mau2 * Mau3;
+
+			int DinhThucTu = x1 * y2 - x2 * y1;
+			int DinhThucMau = y1 * y2;
+
+			int UC = UCLN(DinhThucTu, DinhThucMau);
+
+			DinhThucTu /= UC;
+			DinhThucMau /= UC;
+
+			cout << "Dinh thuc cua ma tran la: " << DinhThucTu << "/" << DinhThucMau << endl;
+		}
+		else
+		{
+			cout << "Cap cua ma tran hien chua the tinh dinh thuc bang ma nay!" << endl;
+		}
+	}
+}
+
+//Thuat toan gauss
+void MaTranBacThang(vector<vector<MaTranPhanSo>>& MT, int m, int n)
+{
+	for (int i = 0, j = 0; i < m && j < n; i++, j++)
+	{
+		// tim hang co gia tri dau lon hon de dat len tren
+		int max_index = i;
+		for (int k = i + 1; k < m; k++)
+		{
+			double x1 = 1.0 * MT[k][j].Tu / MT[k][j].Mau;
+			double x2 = 1.0 * MT[max_index][j].Tu / MT[max_index][j].Mau;
+			if (abs(x1) > abs(x2))
+			{
+				max_index = k;
+			}
+		}
+
+		// Hoan doi 2 hang voi nhau
+		if (max_index != i) {
+			swap(MT[i], MT[max_index]);
+		}
+
+		// lay dong k tru dong i -> dong k
+		for (int k = i + 1; k < m; k++)
+		{
+			double temp = 1.0 * (MT[k][j].Tu * MT[i][j].Mau) / (MT[k][j].Mau * MT[i][j].Tu);
+			for (int l = j; l < n; l++)
+			{
+				MT[k][l].Tu = MT[k][l].Tu * MT[i][l].Mau - temp * MT[k][l].Mau * MT[i][l].Tu;
+				MT[k][l].Mau *= MT[i][l].Mau;
+
+				// Gian uoc tu va mau
+				int uc = UCLN(MT[k][l].Tu, MT[k][l].Mau);
+				MT[k][l].Tu /= uc;
+				MT[k][l].Mau /= uc;
+			}
+		}
+	}
+}
+
+int RankCuaMaTran(vector<vector<MaTranPhanSo>> MT, int m, int n)
+{
+	int count = 0;
+	for (int i = 0; i < m; i++)
+	{
+		//tao bien dat co hieu cho gia tri ban dau la -1 
+		int index = -1;
+		for (int j = 0; j < n; j++)
+		{
+			if (i == index)
+			{
+				//neu dong i co gia tri khac 0 thi bo qua
+				continue;
+			}
+			if (MT[i][j].Tu != 0)
+			{
+				count++;
+				break;
+				index = i;
+			}
+		}
+	}
+	return count;
+}
+
+void TongMaTranPS(vector<vector<MaTranPhanSo>> A, vector<vector<MaTranPhanSo>> B, vector<vector<MaTranPhanSo>>& C, int m, int n, int p, int q)
+{
+	C.resize(m);
+	for (int i = 0; i < m; i++)
+	{
+		C[i].resize(n);
+		for (int j = 0; j < n; j++)
+		{
+			C[i][j].Tu = A[i][j].Tu * B[i][j].Mau + A[i][j].Mau * B[i][j].Tu;
+			C[i][j].Mau = A[i][j].Mau * B[i][j].Mau;
+			int uc = UCLN(C[i][j].Tu, C[i][j].Mau);// gian uoc tu va mau
+			C[i][j].Tu /= uc;
+			C[i][j].Mau /= uc;
+		}
+	}
+}
+
+void TichMaTranPS(vector<vector<MaTranPhanSo>> A, vector<vector<MaTranPhanSo>> B, vector<vector<MaTranPhanSo>>& C, int m, int n, int p, int q)
+{
+	C.resize(m);
+	for (int i = 0; i < m; i++)
+	{
+		C[i].resize(n);
+		for (int j = 0; j < q; j++)
+		{
+			int tu = 0;
+			int mau = 1;
+			for (int k = 0; k < m; k++)
+			{
+				int temp1 = A[i][k].Tu * B[k][j].Tu;//luu giu gia tri tu cua Aik nhan cho gia tri tu Akj
+				int temp2 = A[i][k].Mau * B[k][j].Mau;//luu giu gia tri mau cua Aik nhan cho gia tri mau Akj
+
+				int uc1 = UCLN(temp1, temp2);// Gia uoc tu va mau
+
+				temp1 /= uc1;
+				temp2 /= uc1;
+
+				tu = tu * temp2 + temp1;
+				mau = mau * temp2;
+
+				int uc2 = UCLN(tu, mau);
+
+				tu /= uc2;
+				mau /= uc2;
+			}
+			C[i][j].Tu = tu;
+			C[i][j].Mau = mau;
+		}
+	}
+}

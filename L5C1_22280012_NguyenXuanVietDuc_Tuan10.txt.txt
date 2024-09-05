@@ -1,0 +1,462 @@
+#include<iostream>
+#include<fstream>
+#include<string>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+void DocFile(vector<int>& a, ifstream& file);
+void Xuat(vector<int>a);
+int Tong(vector<int> a);
+int SoNguyenToCungNhau(vector<int> a);
+int SecondMax(vector<int>a);
+void SapXep(vector<int>& a);
+void DocFile2(vector<int>& b, ifstream& in_file2);
+int Tong2(vector<int>b);
+int DemNTo(vector<int>b);
+int MaxThuM(vector<int> b, int m);
+void SapXepGiam(vector<int> b);
+void DocFile3(vector<vector<int>>& c, ifstream& in_file3, int& row, int& col);
+int Tong3(vector<vector<int>> c, int row, int col);
+int SoLuongSoChan(vector<vector<int>> c, int row, int col);
+int SoLuongSoLe(vector<vector<int>> c, int row, int col);
+
+typedef struct
+{
+	int x;//Hoanh do
+	int y;//Tung do
+}TOADO;
+
+void NhapToaDoDiem(TOADO* TD, int n);
+void XuatToaDo(TOADO* TD, int n);
+int SoLuongDiemCo_x_Duong(TOADO* TD, int n);
+int HoanhDoPSxDQ(TOADO* TD, int n);
+int TungDoPSyDQ(TOADO* TD, int n);
+int HoangDoPSx(TOADO* TD, int n);
+int TungDoPSy(TOADO* TD, int n);
+void DiemCoTungDoMax(TOADO* TD, int n);
+
+int main()
+{
+	vector<int> a;
+	ifstream file;
+	file.open("C:\\Users\\ASUS\\Downloads\\input.txt", ios::in);
+	DocFile(a, file);
+
+	file.close();
+	ofstream out_file;
+	out_file.open("C:\\Users\\ASUS\\Downloads\\output.txt", ios::out);
+
+	out_file<< "Tong cac gia tri trong mang la: " << Tong(a) << endl;
+
+	out_file<< "So cap nguyen to cung nhau la: " << SoNguyenToCungNhau(a) << endl;
+
+	SapXep(a);
+
+	out_file<< "Gia tri lon thu 2 trong mang la: " << SecondMax(a) << endl;
+
+	out_file<< "Mang sau khi sap xep la: ";
+	for (int i = 0; i < a.size(); i++)
+	{
+		out_file << a[i] << " ";
+	}
+
+	out_file.close();
+
+	cout << "Da ghi ket qua vao file output.txt" << endl;
+
+	system("pause");
+	system("cls");
+
+	ifstream in_file2;
+	in_file2.open("C:\\Users\\ASUS\\Downloads\\input2.txt", ios::in);
+	vector<int> b;
+	if (!in_file2)
+	{
+		cout << "Khong the mo file!";
+		exit(0);
+	}
+	DocFile2(b, in_file2);
+
+	in_file2.close();
+
+	ofstream out_file2;
+	out_file2.open("C:\\Users\\ASUS\\Downloads\\output2.txt", ios::out);
+
+	out_file2 << "Tong cua mang la: " << Tong2(b) << endl;
+
+	out_file2 << "So luong nguyen to trong mang la: " << DemNTo(b) << endl;
+
+	int m;
+	cout << "Nhap m de tim max tai m: ";
+	cin >> m;
+
+	out_file2 << "Gia tri lon thu " << m << " trong mang b la: " << MaxThuM(b, m) << endl;
+
+	SapXepGiam(b);
+	out_file2 << "Mang b sau khi sap xep giam dan la: " << endl;
+	for (int i = 0; i < b.size(); i++)
+	{
+		out_file2 << b[i] << " ";
+	}
+	cout << "Da ghi vao file output2.txt!" << endl;
+	out_file2.close();
+
+	system("pause");
+	system("cls");
+
+	ifstream in_file3;
+	in_file3.open("C:\\Users\\ASUS\\Downloads\\input3.txt", ios::in);
+	if (!in_file3)
+	{
+		cout << "Khong the mo file!";
+		exit(0);
+	}
+	vector<vector<int>> c;
+	int row = 0, col = 0;
+	DocFile3(c, in_file3, row, col);
+	in_file3.close();
+
+	ofstream out_file3;
+	out_file3.open("C:\\Users\\ASUS\\Downloads\\output3.txt", ios::out);
+	
+	out_file3 << "Ma tran cua ban la:" << endl;
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < col; j++)
+		{
+			out_file3 << c[i][j] << " ";
+		}
+		out_file3 << endl;
+	}
+	out_file3 << "Tong cac phan tu trong ma tran la: " << Tong3(c, row, col) << endl;
+
+	out_file3 << "So luong so chan la: " << SoLuongSoChan(c, row, col) << endl;
+	out_file3 << "So luong so le la: " << SoLuongSoLe(c, row, col) << endl;
+	
+	cout << "Da ghi ket qua vao file output3.txt!" << endl;
+	out_file3.close();
+
+	system("pause");
+	system("cls");
+
+	int n;
+	cout << "Nhap so luong toa do diem muon nhap: ";
+	cin >> n;
+	TOADO* TD;
+	TD = new TOADO[n];
+	NhapToaDoDiem(TD, n);
+	XuatToaDo(TD, n);
+
+	cout << "So luong diem co hoanh do duong la: " << SoLuongDiemCo_x_Duong(TD, n) << endl;
+
+	DiemCoTungDoMax(TD, n);
+	cout << endl;
+
+	cout << "Diem PS khong su dung de quy la: " << "(" << HoangDoPSx(TD, n) << "," << TungDoPSy(TD, n) << ")" << endl;
+	cout << "Diem PS su dung de quy la: " << "(" << HoanhDoPSxDQ(TD, n) << "," << TungDoPSyDQ(TD, n) << ")" << endl;
+
+	delete[] TD;
+	return 0;
+}
+
+void DocFile(vector<int>& a, ifstream& file) 
+{
+	if (!file)
+	{
+		cout << "Khong the mo file!";
+	}
+	int num;
+	while (file >> num)
+	{
+		a.push_back(num);
+	}
+}
+
+void Xuat(vector<int>a)
+{
+	for (int i = 0; i < a.size(); i++)
+	{
+		cout << a[i] << " ";
+	}
+}
+
+int Tong(vector<int> a)
+{
+	int s = 0;
+	for (int i = 0; i < a.size(); i++)
+	{
+		s += i;
+	}
+	return s;
+}
+
+int UCLN(int a, int b)
+{
+	while (b != 0)
+	{
+		int r = a % b;
+		a = b;
+		b = r;
+	}
+	return a;
+}
+
+int SoNguyenToCungNhau(vector<int> a)
+{
+	int count = 0;
+	for (int i = 0; i < a.size() - 1; i++)
+	{
+		for (int j = i + 1; j < a.size(); j++)
+		{
+			if (UCLN(a[i], a[j]) == 1)
+			{
+				count++;
+			}
+		}
+	}
+	return count;
+}
+
+void SapXep(vector<int>& a)
+{
+	for (int i = 0; i < a.size() - 1; i++)
+	{
+		for (int j = i + 1; j < a.size(); j++)
+		{
+			if (a[i] > a[j])
+			{
+				swap(a[i], a[j]);
+			}
+		}
+	}
+}
+
+int SecondMax(vector<int>a)
+{
+	return a[a.size() - 2 ];
+}
+
+void DocFile2(vector<int>& b, ifstream& in_file2)
+{
+	int n;
+	in_file2 >> n;
+	for (int i = 0; i < n; i++)
+	{
+		int value;
+		in_file2 >> value;
+		b.push_back(value);
+	}
+}
+
+
+int Tong2(vector<int>b)
+{
+	int s = 0;
+	for (int i = 0; i < b.size(); i++)
+	{
+		s += i;
+	}
+	return s;
+}
+
+bool NguyenTo(int n)
+{
+	if (n <= 1)
+	{
+		return false;
+	}
+	for (int i = 2; i <= sqrt(n); i++)
+	{
+		if (n % i == 0)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+int DemNTo(vector<int>b)
+{
+	int count = 0;
+	for (int i = 0; i < b.size(); i++)
+	{
+		if (NguyenTo(b[i]) == true)
+		{
+			count++;
+		}
+	}
+	return count;
+}
+
+int MaxThuM(vector<int> b, int m)
+{
+	SapXep(b);
+	return b[m - 1];
+}
+
+void SapXepGiam(vector<int> b)
+{
+	for (int i = 0; i < b.size() - 1; i++)
+	{
+		for (int j = i + 1; j < b.size(); j++)
+		{
+			if (b[i] < b[j])
+			{
+				swap(b[i], b[j]);
+			}
+		}
+	}
+}
+
+void DocFile3(vector<vector<int>>& c, ifstream& in_file3, int& row, int& col)
+{
+	in_file3 >> row >> col;
+	c.resize(row, vector<int>(col));
+	for (int i = 0; i < row; i++)
+	{
+		for(int j = 0; j < col; j++)
+		{
+			in_file3 >> c[i][j];
+		}
+	}
+}
+
+int Tong3(vector<vector<int>> c, int row, int col)
+{
+	int s = 0;
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < col; j++)
+		{
+			s += c[i][j];
+		}
+	}
+	return s;
+}
+
+int SoLuongSoChan(vector<vector<int>> c, int row, int col)
+{
+	int count = 0;
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < col; j++)
+		{
+			if (c[i][j] % 2 == 0)
+			{
+				count++;
+			}
+		}
+	}
+	return count;
+}
+
+int SoLuongSoLe(vector<vector<int>> c, int row, int col)
+{
+	int count = 0;
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < col; j++)
+		{
+			if (c[i][j] % 2 != 0)
+			{
+				count++;
+			}
+		}
+	}
+	return count;
+}
+
+void NhapToaDoDiem(TOADO* TD, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << "Nhap hoanh do cua diem thu " << i + 1 << ": ";
+		cin >> TD[i].x;
+		cout << "Nhap tung do cua diem thu " << i + 1 << ": ";
+		cin >> TD[i].y;
+	}
+}
+
+void XuatToaDo(TOADO* TD, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << "Toa do diem thu " << i + 1 << " la: (" << TD[i].x << "," << TD[i].y << ")" << endl;
+	}
+}
+
+int SoLuongDiemCo_x_Duong(TOADO* TD, int n)
+{
+	int count = 0; 
+	for (int i = 0; i < n; i++)
+	{
+		if (TD[i].x > 0)
+		{
+			count++;
+		}
+	}
+	return count;
+}
+
+int TungDoMax(TOADO* TD, int n)
+{
+	int max = TD[0].y;
+	for (int i = 1; i < n; i++)
+	{
+		if (max < TD[i].y)
+		{
+			max = TD[i].y;
+		}
+	}
+	return max;
+}
+void DiemCoTungDoMax(TOADO* TD, int n)
+{
+	cout << "Cac diem co tung do max la: ";
+	for (int i = 0; i < n; i++)
+	{
+		if (TD[i].y == TungDoMax(TD, n))
+		{
+			cout << "(" << TD[i].x << "," << TD[i].y << ")" << " ";
+		}
+	}
+}
+
+int HoanhDoPSxDQ(TOADO* TD, int n)
+{
+	if (n == 1)
+	{
+		return TD[0].x;
+	}
+	return TD[n - 1].x + HoanhDoPSxDQ(TD, n - 1);
+}
+
+int TungDoPSyDQ(TOADO* TD, int n)
+{
+	if (n == 1)
+	{
+		return TD[0].y;
+	}
+	return TD[n - 1].y + TungDoPSyDQ(TD, n - 1);
+}
+
+int HoangDoPSx(TOADO* TD, int n)
+{
+	int PSx = 0;
+	for (int i = 0; i < n; i++)
+	{
+		PSx += TD[i].x;
+	}
+	return PSx;
+}
+
+int TungDoPSy(TOADO* TD, int n)
+{
+	int PSy = 0;
+	for (int i = 0; i < n; i++)
+	{
+		PSy += TD[i].y;
+	}
+	return PSy;
+}    

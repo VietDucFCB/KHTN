@@ -1,0 +1,133 @@
+#include<iostream>
+#include<algorithm>
+#include<string>
+#include<fstream>
+
+using namespace std;
+
+typedef struct
+{
+	//tao 1 stuct voi 2 thong tin ten va diem toan
+	string Ten;
+	short int DiemToan;
+}LOPA;
+
+void NhapMang(LOPA* A, int n);
+void XuatMang(LOPA* A, int n);
+int TongDiemToan(LOPA* A, int n);
+float TrungBinhDiemToan(LOPA* A, int n);
+void SapXepGiamDan(LOPA* A, int n);
+void GhiFile(LOPA* A, ofstream& out_file, int n);
+
+int main()
+{
+	int n;
+	cout << "Nhap so luong hoc sinh: ";
+	cin >> n;
+	LOPA* A;
+	//cap phat dong mot mang a co kieu la LOPA
+	A = new LOPA[n];
+
+	NhapMang(A, n);
+	system("pause");
+	system("cls");
+
+	XuatMang(A, n);
+	system("pause");
+	system("cls");
+
+	cout << "Tong diem toan cua hoc sinh la: " << TongDiemToan(A, n) << endl;
+	cout << "TRung binh diem toan cua hoc sinh la: " << TrungBinhDiemToan(A, n) << endl;
+	system("pause");
+	system("cls");
+
+	cout << "Mang sau khi sap xep diem toan giam dan la: " << endl;
+	SapXepGiamDan(A, n);
+	XuatMang(A, n);
+	system("pause");
+	system("cls");
+
+	ofstream out_file;
+	out_file.open("C:\\Users\\ASUS\\Downloads\\montoan.txt", ios::out);
+
+	GhiFile(A, out_file, n);
+	cout << "Ghi file thanh cong!";
+
+	out_file.close();
+	//xoa bo nho cap phat du
+	delete[] A;
+
+	return 0;
+}
+
+void NhapMang(LOPA* A, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << "Nhap thong tin hoc sinh thu " << i + 1 << ": " << endl;
+		cout << "Nhap ten: ";
+		cin.ignore();// tranh bo qua lan nhap tiep theo
+		getline(cin, A[i].Ten);
+		cout << "Nhap diem toan: ";
+		cin >> A[i].DiemToan;
+	}
+}
+
+void XuatMang(LOPA* A, int n)
+{
+	cout << "Ten va diem toan cua cac hoc sinh: " << endl;
+	for (int i = 0; i < n; i++)
+	{
+		cout << A[i].Ten << " : " << A[i].DiemToan << endl;
+	}
+}
+
+int TongDiemToan(LOPA* A, int n)
+{
+	if (n == 1)
+	{
+		//mang co 1 phan tu thi tra ve phan tu dau tien
+		return A[0].DiemToan;
+	}
+	else
+	{
+		//Tinh tong bang de quy 
+		return A[n - 1].DiemToan + TongDiemToan(A, n - 1);
+	}
+}
+
+float TrungBinhDiemToan(LOPA* A, int n)
+{
+	//diem trung binh bang diem tong chia cho so luong hoc sinh
+	return 1.0* TongDiemToan(A, n) / n;
+}
+
+void SapXepGiamDan(LOPA* A, int n)
+{
+	if (n == 1)
+	{
+		//neu mang co 1 phan tu khong can sap xep
+		return;
+	}
+	for (int i = 0; i < n; i++)
+	{
+		if (A[i].DiemToan < A[n - 1].DiemToan)
+		{
+			//kiem tra diem toan cua hoc sinh i va hoc sinh n-1 neu nho hon thi doi cho
+			swap(A[i], A[n - 1]);
+		}
+	}
+	SapXepGiamDan(A, n - 1);
+}
+
+void GhiFile(LOPA* A, ofstream& out_file, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		if (A[i].DiemToan > TrungBinhDiemToan(A, n))
+		{
+			// ghi ten va diem cua hoc sinh co diem toan lon hon diem trung binh
+			out_file << A[i].Ten << " : " << A[i].DiemToan << endl;
+		}
+	}
+}

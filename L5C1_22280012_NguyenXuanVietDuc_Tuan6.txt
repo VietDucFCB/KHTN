@@ -1,0 +1,183 @@
+#include<iostream>
+#include<cstdlib>
+
+using namespace std;
+
+int Viruss(int n);
+int ChuoiXn(int n);
+class Chuoi_Xn_Yn {
+private:
+	int Xn;
+	int Yn;
+public:
+	Chuoi_Xn_Yn(int Xn, int Yn) : Xn(Xn), Yn(Yn) {}
+	int getX() const { return Xn; }
+	int getY() const { return Yn; }
+};
+Chuoi_Xn_Yn TinhChuoi(Chuoi_Xn_Yn chuoi, int n);
+double TietKiem(long long x, double a, int n);
+double TongSoNguyenTrongMang(double a[], int n);
+int Max(double a[], int n);
+int Min(double a[], int n);
+
+
+int main()
+{
+	int n;
+	cout << "Nhap n de tinh virus: ";
+	cin >> n;
+	cout <<"So luong viruss la: " << Viruss(n) << endl;
+	system("pause");
+	system("cls");
+
+	cout << "Nhap n de tinh cuoi Xn: ";
+	cin >> n;
+	cout << "Chuoi Xn tai " << n << " la: " << ChuoiXn(n) << endl;
+	system("pause");
+	system("cls");
+
+	cout << "Nhap n de tinh chuoi Xn va Yn: ";
+	cin >> n;
+	Chuoi_Xn_Yn chuoi(0, 0);
+	chuoi = TinhChuoi(chuoi, n);
+	cout << "Chuoi Xn_Yn den phan tu thu " << n << " la: " << chuoi.getX() << ", " << chuoi.getY() << endl;
+	system("pause");
+	system("cls");
+
+	cout << "lai suat sau 5 nam la: ";
+	double x = 1. * TietKiem(10000000, 2, 5);
+	cout << x << endl;
+	system("pause");
+	system("cls");
+
+	double a[100]{};
+	cout << "Nhap so luong phan tu cho mang: ";
+	cin >> n;
+	for (int i = 0; i < n; i++)
+	{
+		a[i] = (rand() % (10 + 1));
+	}
+	cout << "Mang ban vua nhap la: ";
+	for (int i = 0; i < n; i++)
+	{
+		cout << a[i] << " ";
+	}
+	cout << endl;
+	cout << "Tong n phan tu cua mang la: " << TongSoNguyenTrongMang(a, n) << endl;
+	cout << "Vi tri max trong mang la: " << Max(a, n) << endl;
+	cout << "Vi tri min trong mang la: " << Min(a, n) << endl;
+
+	return 0;
+}
+
+int Viruss(int n)
+{
+	if (n == 0)
+	{
+		return 2;
+	}
+	else
+	{
+		int x = Viruss(n - 1);
+		return 2 * x;
+	}
+}
+
+int ChuoiXn(int n)
+{
+	if (n == 0)
+	{
+		return 1;
+	}
+	int s = 0;
+	for (int i = 0; i < n; i++)
+	{
+		s += pow((n - i), 2) * ChuoiXn(i);
+	}
+	return s;
+}
+
+Chuoi_Xn_Yn TinhChuoi(Chuoi_Xn_Yn chuoi, int n) {
+	double Xn, Yn;
+	if (n == 0)
+	{
+		Xn = 1;
+		Yn = 1;
+	}
+	else
+	{
+		Chuoi_Xn_Yn chuoi_truoc = TinhChuoi(chuoi, n - 1);
+		Xn = chuoi_truoc.getX() + chuoi_truoc.getY();
+		Yn = n * n * chuoi_truoc.getX() + chuoi_truoc.getY();
+	}
+	return Chuoi_Xn_Yn(Xn, Yn);
+}
+
+// x la so tien gui ban dau
+//a la lai suat, n la so nam gui tien
+double TietKiem(long long x, double a, int n)
+{
+	if (n == 0)
+	{
+		return x;
+	}
+	return (1 + (a / 100)) * TietKiem(x, a, n - 1);
+}
+
+double TongSoNguyenTrongMang(double a[], int n)
+{
+	if (n == 0)
+	{
+		return 0;
+	}
+	int s;
+	s = a[n] + TongSoNguyenTrongMang(a, n - 1);
+	return s;
+}
+
+int Max(double a[], int n)
+{
+	if (n == 0)
+	{
+		return -1;
+	}
+	if (n == 1)
+	{
+		return 1;
+	}
+	else
+	{
+		if (a[n - 1] > Max(a, n - 1))
+		{
+			return n;
+		}
+		else
+		{
+			return Max(a, n - 1);
+		}
+	}
+}
+
+int Min(double a[], int n)
+{
+	if (n == 0)
+	{
+		return -1;
+	}
+	if (n == 1)
+	{
+		return 1;
+	}
+	else
+	{
+		if (a[n - 1] < Min(a, n - 1))
+		{
+			return n;
+		}
+		else
+		{
+			return Min(a, n - 1);
+		}
+	}
+}
+
