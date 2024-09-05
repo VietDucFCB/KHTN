@@ -1,0 +1,2 @@
+﻿  Source.cpp
+C:\Users\ASUS\OneDrive\Máy tính\ALLC++\PrimeVD1\PrimeVD1\Source.cpp(69): error C4700: uninitialized local variable 'count' used
