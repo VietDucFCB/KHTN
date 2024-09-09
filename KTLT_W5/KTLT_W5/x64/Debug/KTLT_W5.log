@@ -1,0 +1,3 @@
+﻿  Source.cpp
+C:\Users\ASUS\OneDrive\Máy tính\KHTN_HK2\KTLT_W5\KTLT_W5\Source.cpp(120,46): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+  KTLT_W5.vcxproj -> C:\Users\ASUS\OneDrive\Máy tính\KHTN_HK2\KTLT_W5\x64\Debug\KTLT_W5.exe
