@@ -1,0 +1,24 @@
+20:42:39-Aug-10-2023,get data in API
+20:42:39-Aug-10-2023,drop columns unessecsary
+20:42:39-Aug-10-2023,convert data to csv file
+20:42:39-Aug-10-2023,convert sucess
+20:43:34-Aug-10-2023,get data in API
+20:43:34-Aug-10-2023,drop columns unessecsary
+20:43:34-Aug-10-2023,convert data to csv file
+21:16:32-Aug-10-2023,get data in API
+21:16:32-Aug-10-2023,drop columns unessecsary
+21:16:32-Aug-10-2023,convert data to csv file
+21:16:32-Aug-10-2023,convert sucess
+21:19:10-Aug-10-2023,get data in API
+21:19:10-Aug-10-2023,drop columns unessecsary
+21:19:10-Aug-10-2023,convert data to csv file
+21:20:14-Aug-10-2023,get data in API
+21:20:14-Aug-10-2023,drop columns unessecsary
+21:20:14-Aug-10-2023,convert data to csv file
+21:20:59-Aug-10-2023,get data in API
+21:20:59-Aug-10-2023,drop columns unessecsary
+21:20:59-Aug-10-2023,convert data to csv file
+21:26:05-Aug-10-2023,get data in API
+21:26:05-Aug-10-2023,drop columns unessecsary
+21:26:05-Aug-10-2023,convert data to csv file
+21:26:05-Aug-10-2023,convert sucess

@@ -1,0 +1,44 @@
+20:54:20-Aug-08-2023,ETL Job Started
+20:54:20-Aug-08-2023,Extract prase Started
+20:56:34-Aug-08-2023,ETL Job Started
+20:56:34-Aug-08-2023,Extract prase Started
+20:56:34-Aug-08-2023,Extract data Ended
+20:56:34-Aug-08-2023,Transform phase Started
+20:56:51-Aug-08-2023,ETL Job Started
+20:56:51-Aug-08-2023,Extract prase Started
+20:56:51-Aug-08-2023,Extract data Ended
+20:56:51-Aug-08-2023,Transform phase Started
+20:56:51-Aug-08-2023,Transform phase Ended
+20:56:51-Aug-08-2023,Load phase Started
+20:56:51-Aug-08-2023,Load phase Ended
+20:56:51-Aug-08-2023,ETL completed
+21:06:47-Aug-08-2023,ETL Job Started
+21:06:47-Aug-08-2023,Extract prase Started
+21:09:33-Aug-08-2023,ETL Job Started
+21:09:33-Aug-08-2023,Extract prase Started
+21:11:34-Aug-08-2023,ETL Job Started
+21:11:34-Aug-08-2023,Extract prase Started
+21:17:06-Aug-08-2023,ETL Job Started
+21:17:06-Aug-08-2023,Extract prase Started
+21:22:41-Aug-08-2023,ETL Job Started
+21:22:41-Aug-08-2023,Extract prase Started
+21:26:13-Aug-08-2023,ETL Job Started
+21:26:13-Aug-08-2023,Extract prase Started
+21:27:37-Aug-08-2023,ETL Job Started
+21:27:37-Aug-08-2023,Extract prase Started
+21:29:56-Aug-08-2023,ETL Job Started
+21:29:56-Aug-08-2023,Extract prase Started
+21:29:56-Aug-08-2023,Extract data Ended
+21:29:56-Aug-08-2023,Transform phase Started
+21:29:56-Aug-08-2023,Transform phase Ended
+21:29:56-Aug-08-2023,Load phase Started
+21:29:56-Aug-08-2023,Load phase Ended
+21:29:56-Aug-08-2023,ETL completed
+22:44:09-Aug-09-2023,ETL Job Started
+22:44:09-Aug-09-2023,Extract prase Started
+22:44:09-Aug-09-2023,Extract data Ended
+22:44:09-Aug-09-2023,Transform phase Started
+22:44:09-Aug-09-2023,Transform phase Ended
+22:44:09-Aug-09-2023,Load phase Started
+22:44:09-Aug-09-2023,Load phase Ended
+22:44:09-Aug-09-2023,ETL completed

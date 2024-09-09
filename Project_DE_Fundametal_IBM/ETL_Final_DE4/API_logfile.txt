@@ -1,0 +1,11 @@
+14:18:14-Aug-11-2023,Extract json file
+14:18:14-Aug-11-2023,Extracted json file
+14:18:14-Aug-11-2023,Transform data
+14:18:14-Aug-11-2023,Transformed data
+14:18:14-Aug-11-2023,Load data
+14:18:22-Aug-11-2023,Extract json file
+14:18:22-Aug-11-2023,Extracted json file
+14:18:22-Aug-11-2023,Transform data
+14:18:22-Aug-11-2023,Transformed data
+14:18:22-Aug-11-2023,Load data
+14:18:22-Aug-11-2023,Loaded data

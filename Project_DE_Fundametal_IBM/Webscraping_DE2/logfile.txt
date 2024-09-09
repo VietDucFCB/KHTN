@@ -1,0 +1,15 @@
+21:13:05-Aug-09-2023,Extract data Ended
+21:13:05-Aug-09-2023,Load phase Started
+21:22:11-Aug-09-2023,Extract data from json file
+21:33:09-Aug-09-2023,Extract data from json file
+22:41:05-Aug-09-2023,Extract data from json file
+22:41:05-Aug-09-2023,Extract data Ended
+22:41:05-Aug-09-2023,Load phase Started
+22:41:05-Aug-09-2023,Load phase Ended
+23:17:19-Aug-09-2023,Extract data from json file
+23:17:19-Aug-09-2023,Extract data Ended
+23:17:19-Aug-09-2023,Load phase Started
+23:20:01-Aug-09-2023,Extract data from json file
+23:20:01-Aug-09-2023,Extract data Ended
+23:20:01-Aug-09-2023,Load phase Started
+23:20:01-Aug-09-2023,Load phase Ended
